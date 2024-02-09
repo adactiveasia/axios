@@ -1,4 +1,4 @@
-// Axios v1.6.7 Copyright (c) 2024 Matt Zabriskie and contributors
+// Axios v1.0.0 Copyright (c) 2024 Matt Zabriskie and contributors
 'use strict';
 
 function bind(fn, thisArg) {
@@ -2224,12 +2224,6 @@ var xhrAdapter = isXHRAdapterSupported && function (config) {
     let request = new XMLHttpRequest();
 
     // HTTP basic authentication
-    if (config.auth) {
-      const username = config.auth.username || '';
-      const password = config.auth.password ? unescape(encodeURIComponent(config.auth.password)) : '';
-      requestHeaders.set('Authorization', 'Basic ' + btoa(username + ':' + password));
-    }
-
     const fullPath = buildFullPath(config.baseURL, config.url);
 
     request.open(config.method.toUpperCase(), buildURL(fullPath, config.params, config.paramsSerializer), true);

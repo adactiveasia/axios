@@ -1,4 +1,4 @@
-// Axios v1.6.7 Copyright (c) 2024 Matt Zabriskie and contributors
+// Axios v1.0.0 Copyright (c) 2024 Matt Zabriskie and contributors
 'use strict';
 
 const FormData$1 = require('form-data');
@@ -2559,22 +2559,6 @@ function setProxy(options, configProxy, location) {
     }
   }
   if (proxy) {
-    // Basic proxy authorization
-    if (proxy.username) {
-      proxy.auth = (proxy.username || '') + ':' + (proxy.password || '');
-    }
-
-    if (proxy.auth) {
-      // Support proxy auth object form
-      if (proxy.auth.username || proxy.auth.password) {
-        proxy.auth = (proxy.auth.username || '') + ':' + (proxy.auth.password || '');
-      }
-      const base64 = Buffer
-        .from(proxy.auth, 'utf8')
-        .toString('base64');
-      options.headers['Proxy-Authorization'] = 'Basic ' + base64;
-    }
-
     options.headers.host = options.hostname + (options.port ? ':' + options.port : '');
     const proxyHost = proxy.hostname || proxy.host;
     options.hostname = proxyHost;
@@ -2842,19 +2826,6 @@ const httpAdapter = isHttpAdapterSupported && function httpAdapter(config) {
 
     // HTTP basic authentication
     let auth = undefined;
-    if (config.auth) {
-      const username = config.auth.username || '';
-      const password = config.auth.password || '';
-      auth = username + ':' + password;
-    }
-
-    if (!auth && parsed.username) {
-      const urlUsername = parsed.username;
-      const urlPassword = parsed.password;
-      auth = urlUsername + ':' + urlPassword;
-    }
-
-    auth && headers.delete('authorization');
 
     let path;
 
@@ -3323,12 +3294,6 @@ const xhrAdapter = isXHRAdapterSupported && function (config) {
     let request = new XMLHttpRequest();
 
     // HTTP basic authentication
-    if (config.auth) {
-      const username = config.auth.username || '';
-      const password = config.auth.password ? unescape(encodeURIComponent(config.auth.password)) : '';
-      requestHeaders.set('Authorization', 'Basic ' + btoa(username + ':' + password));
-    }
-
     const fullPath = buildFullPath(config.baseURL, config.url);
 
     request.open(config.method.toUpperCase(), buildURL(fullPath, config.params, config.paramsSerializer), true);
